@@ -44,19 +44,19 @@ public class GoldMedalController {
         List<GoldMedal> medalsList;
         switch (sortBy) {
             case "year":
-                medalsList = // TODO: list of medals sorted by year in the given order
+                medalsList = ascendingOrder ? goldMedalRepo.findByCountryOrderByYearAsc(countryName) : goldMedalRepo.findByCountryOrderByYearDesc(countryName);
                 break;
             case "season":
-                medalsList = // TODO: list of medals sorted by season in the given order
+                medalsList = ascendingOrder ? goldMedalRepo.findByCountryOrderBySeasonAsc(countryName) : goldMedalRepo.findByCountryOrderBySeasonDesc(countryName);
                 break;
             case "city":
-                medalsList = // TODO: list of medals sorted by city in the given order
+                medalsList = ascendingOrder ? goldMedalRepo.findByCountryOrderByCityAsc(countryName) : goldMedalRepo.findByCountryOrderByCityDesc(countryName);
                 break;
             case "name":
-                medalsList = // TODO: list of medals sorted by athlete's name in the given order
+                medalsList = ascendingOrder ? goldMedalRepo.findByCountryOrderByNameAsc(countryName) : goldMedalRepo.findByCountryOrderByNameDesc(countryName);
                 break;
             case "event":
-                medalsList = // TODO: list of medals sorted by event in the given order
+                medalsList = ascendingOrder ? goldMedalRepo.findByCountryOrderByEventAsc(countryName) : goldMedalRepo.findByCountryOrderByEventDesc(countryName);
                 break;
             default:
                 medalsList = new ArrayList<>();
