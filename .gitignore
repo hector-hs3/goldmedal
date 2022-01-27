@@ -1,5 +1,4 @@
-target/
-
-.project
-# JDT-specific (Eclipse Java Development Tools)
 .classpath
+.project
+.settings/
+target/
