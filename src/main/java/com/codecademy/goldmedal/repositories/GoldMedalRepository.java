@@ -21,8 +21,9 @@ public interface GoldMedalRepository extends CrudRepository<GoldMedal, Integer> 
   public List<GoldMedal> findByCountryOrderByEventAsc(String country);
   public List<GoldMedal> findByCountryOrderByEventDesc(String country);
 
-  public Integer countByCountry(String country);
-  public Integer countBySeason(String season);
-  public List<GoldMedal> findByCountryAndSeasonOrderByYearAsc(String country, String season);
+  public int countByCountry(String country);
+  public int countBySeason(String season);
   public List<GoldMedal> findByCountryAndGender(String country, String gender);
+  public List<GoldMedal> findByCountryAndSeasonOrderByYearAsc(String country, String season);
+  
 }

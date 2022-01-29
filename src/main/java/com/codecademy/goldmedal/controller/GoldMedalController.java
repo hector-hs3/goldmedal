@@ -73,22 +73,22 @@ public class GoldMedalController {
         }
 
         var country = countryOptional.get();
-        var goldMedalCount = goldMedalRepo.countByCountry(countryName);
+        var goldMedalCount = goldMedalRepo.countByCountry(country.getName());
 
-        var summerWins = goldMedalRepo.findByCountryAndSeasonOrderByYearAsc(countryName, "Summer");
+        var summerWins = goldMedalRepo.findByCountryAndSeasonOrderByYearAsc(country.getName(), "Summer");
         var numberSummerWins = summerWins.size() > 0 ? summerWins.size() : null;
         var totalSummerEvents = goldMedalRepo.countBySeason("Summer");
         var percentageTotalSummerWins = totalSummerEvents != 0 && numberSummerWins != null ? (float) summerWins.size() / totalSummerEvents : null;
         var yearFirstSummerWin = summerWins.size() > 0 ? summerWins.get(0).getYear() : null;
 
-        var winterWins = goldMedalRepo.findByCountryAndSeasonOrderByYearAsc(countryName, "Winter");
+        var winterWins = goldMedalRepo.findByCountryAndSeasonOrderByYearAsc(country.getName(), "Winter");
         var numberWinterWins = winterWins.size() > 0 ? winterWins.size() : null;
         var totalWinterEvents = goldMedalRepo.countBySeason("Winter");
         var percentageTotalWinterWins = totalWinterEvents != 0 && numberWinterWins != null ? (float) winterWins.size() / totalWinterEvents : null;
         var yearFirstWinterWin = winterWins.size() > 0 ? winterWins.get(0).getYear() : null;
 
-        var numberEventsWonByFemaleAthletes = goldMedalRepo.findByCountryAndGender(countryName, "Women").size();
-        var numberEventsWonByMaleAthletes = goldMedalRepo.findByCountryAndGender(countryName, "Men").size();
+        var numberEventsWonByFemaleAthletes = goldMedalRepo.findByCountryAndGender(country.getName(), "Women").size();
+        var numberEventsWonByMaleAthletes = goldMedalRepo.findByCountryAndGender(country.getName(), "Men").size();
 
         return new CountryDetailsResponse(
                 countryName,
@@ -109,17 +109,17 @@ public class GoldMedalController {
         List<Country> countries;
         switch (sortBy) {
             case "name":
-                countries = // TODO: list of countries sorted by name in the given order
+                countries = ascendingOrder ? countryRepo.findAllByOrderByNameAsc() : countryRepo.findAllByOrderByNameDesc();
                 break;
             case "gdp":
-                countries = // TODO: list of countries sorted by gdp in the given order
+                countries = ascendingOrder ? countryRepo.findAllByOrderByGdpAsc() : countryRepo.findAllByOrderByGdpDesc();
                 break;
             case "population":
-                countries = // TODO: list of countries sorted by population in the given order
+                countries = ascendingOrder ? countryRepo.findAllByOrderByPopulationAsc() : countryRepo.findAllByOrderByPopulationDesc();
                 break;
             case "medals":
             default:
-                countries = // TODO: list of countries in any order you choose; for sorting by medal count, additional logic below will handle that
+                countries = countryRepo.findAllByOrderByNameAsc();
                 break;
         }
 
@@ -143,7 +143,7 @@ public class GoldMedalController {
     private List<CountrySummary> getCountrySummariesWithMedalCount(List<Country> countries) {
         List<CountrySummary> countrySummaries = new ArrayList<>();
         for (var country : countries) {
-            var goldMedalCount = // TODO: get count of medals for the given country
+            var goldMedalCount = goldMedalRepo.countByCountry(country.getName());
             countrySummaries.add(new CountrySummary(country, goldMedalCount));
         }
         return countrySummaries;
