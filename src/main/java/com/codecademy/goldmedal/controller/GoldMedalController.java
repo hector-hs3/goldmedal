@@ -67,28 +67,28 @@ public class GoldMedalController {
     }
 
     private CountryDetailsResponse getCountryDetailsResponse(String countryName) {
-        var countryOptional = // TODO: get the country; this repository method should return a java.util.Optional
+        var countryOptional = countryRepo.findByName(countryName);
         if (countryOptional.isEmpty()) {
             return new CountryDetailsResponse(countryName);
         }
 
         var country = countryOptional.get();
-        var goldMedalCount = // TODO: get the medal count
+        var goldMedalCount = goldMedalRepo.countByCountry(countryName);
 
-        var summerWins = // TODO: get the collection of wins at the Summer Olympics, sorted by year in ascending order
+        var summerWins = goldMedalRepo.findByCountryAndSeasonOrderByYearAsc(countryName, "Summer");
         var numberSummerWins = summerWins.size() > 0 ? summerWins.size() : null;
-        var totalSummerEvents = // TODO: get the total number of events at the Summer Olympics
+        var totalSummerEvents = goldMedalRepo.countBySeason("Summer");
         var percentageTotalSummerWins = totalSummerEvents != 0 && numberSummerWins != null ? (float) summerWins.size() / totalSummerEvents : null;
         var yearFirstSummerWin = summerWins.size() > 0 ? summerWins.get(0).getYear() : null;
 
-        var winterWins = // TODO: get the collection of wins at the Winter Olympics
+        var winterWins = goldMedalRepo.findByCountryAndSeasonOrderByYearAsc(countryName, "Winter");
         var numberWinterWins = winterWins.size() > 0 ? winterWins.size() : null;
-        var totalWinterEvents = // TODO: get the total number of events at the Winter Olympics, sorted by year in ascending order
+        var totalWinterEvents = goldMedalRepo.countBySeason("Winter");
         var percentageTotalWinterWins = totalWinterEvents != 0 && numberWinterWins != null ? (float) winterWins.size() / totalWinterEvents : null;
         var yearFirstWinterWin = winterWins.size() > 0 ? winterWins.get(0).getYear() : null;
 
-        var numberEventsWonByFemaleAthletes = // TODO: get the number of wins by female athletes
-        var numberEventsWonByMaleAthletes = // TODO: get the number of wins by male athletes
+        var numberEventsWonByFemaleAthletes = goldMedalRepo.findByCountryAndGender(countryName, "Women").size();
+        var numberEventsWonByMaleAthletes = goldMedalRepo.findByCountryAndGender(countryName, "Men").size();
 
         return new CountryDetailsResponse(
                 countryName,

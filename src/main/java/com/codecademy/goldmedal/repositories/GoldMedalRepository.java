@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import com.codecademy.goldmedal.model.GoldMedal;
 
 public interface GoldMedalRepository extends CrudRepository<GoldMedal, Integer> {
+  
   public List<GoldMedal> findByCountryOrderByYearAsc(String country);
   public List<GoldMedal> findByCountryOrderByYearDesc(String country);
 
@@ -19,4 +20,9 @@ public interface GoldMedalRepository extends CrudRepository<GoldMedal, Integer> 
 
   public List<GoldMedal> findByCountryOrderByEventAsc(String country);
   public List<GoldMedal> findByCountryOrderByEventDesc(String country);
+
+  public Integer countByCountry(String country);
+  public Integer countBySeason(String season);
+  public List<GoldMedal> findByCountryAndSeasonOrderByYearAsc(String country, String season);
+  public List<GoldMedal> findByCountryAndGender(String country, String gender);
 }
